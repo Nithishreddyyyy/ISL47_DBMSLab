@@ -1,0 +1,54 @@
+-- Question 2
+CREATE TABLE SUPPLIER (
+    SID int PRIMARY KEY,
+    SNAME VARCHAR(50),
+    SADDR VARCHAR(100)
+);
+
+CREATE TABLE PART (
+    PID int PRIMARY KEY,
+    PNAME VARCHAR(50),
+    PCOLOR VARCHAR(30)
+);
+
+CREATE TABLE SUPPLY (
+    SID int,
+    PID int,
+    QUANTITY int CHECK (QUANTITY > 0),
+    PRIMARY KEY (SID, PID),
+    FOREIGN KEY (SID) REFERENCES SUPPLIER(SID),
+    FOREIGN KEY (PID) REFERENCES PART(PID)
+);
+
+-- Insert into SUPPLIER
+INSERT INTO SUPPLIER VALUES (1, 'Supplier A', 'Bangalore');
+INSERT INTO SUPPLIER VALUES (2, 'Supplier B', 'Chennai');
+
+-- Insert into PART
+INSERT INTO PART VALUES (101, 'Bolt', 'Red');
+INSERT INTO PART VALUES (102, 'Nut', 'Blue');
+
+-- Insert into SUPPLY
+INSERT INTO SUPPLY VALUES (1, 101, 500);
+INSERT INTO SUPPLY VALUES (2, 102, 300);
+INSERT INTO SUPPLY VALUES (1, 102, 200);
+
+
+
+-- Obtain the details of parts supplied by supplier #SNAME.
+SELECT P.PID, P.PNAME, P.PCOLOR, S.QUANTITY
+FROM SUPPLIER SP
+JOIN SUPPLY S ON SP.SID = S.SID
+JOIN PART P ON S.PID = P.PID
+WHERE SP.SNAME = 'Supplier B';  -- Replace 'Supplier A' with #SNAME
+
+-- Obtain the Names of suppliers who supply #PNAME.
+SELECT DISTINCT SP.SNAME
+FROM SUPPLIER SP
+JOIN SUPPLY S ON SP.SID = S.SID
+JOIN PART P ON S.PID = P.PID
+WHERE P.PNAME = 'Nut';  -- Replace 'Nut' with #PNAME
+
+-- Delete the parts which are in #PCOLOR.
+Delete from PART
+where PCOLOR = 'Red';
