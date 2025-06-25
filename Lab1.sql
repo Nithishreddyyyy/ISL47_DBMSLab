@@ -18,7 +18,7 @@ CREATE TABLE W1 (
     PRIMARY KEY (SSN, PNO),
     FOREIGN KEY (SSN) REFERENCES E1(SSN),
     FOREIGN KEY (PNO) REFERENCES P1(PNO)
-);
+);.
 
 -- Obtain the details of employees assigned to “Database” project.
 select E1.* 
